@@ -1,6 +1,7 @@
-from src.main.lab import invoke_basic_chain, invoke_complex_chain
+from lab import invoke_basic_chain, invoke_complex_chain, get_complex_prompt
 
 if __name__ == "__main__":
+    
     try:
         choice = int(input("Enter 1 to test the basic chain, 2 to test the complex chain: "))
     except ValueError:

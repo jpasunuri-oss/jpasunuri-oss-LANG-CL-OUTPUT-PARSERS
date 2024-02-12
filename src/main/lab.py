@@ -6,6 +6,10 @@ from langchain.llms import HuggingFaceEndpoint
 from langchain_community.chat_models.huggingface import ChatHuggingFace
 
 import os
+from dotenv import load_dotenv
+
+# Load dot_env 
+load_dotenv()
 
 llm = HuggingFaceEndpoint(
     endpoint_url=os.environ['LLM_ENDPOINT'],
@@ -23,6 +27,7 @@ model = ChatHuggingFace(llm=llm)
 def get_basic_output_parser():
     # Set up an output parser, starting with schema
     is_food_schema = ResponseSchema(name = "is_food", description = "Is the topic a food? Answer True if yes, False if no.")
+
     # This is a small example, so we just need one schema, 
     # but for more complex outputs, we can include multiple schemas
     response_schemas = [is_food_schema]
@@ -69,7 +74,11 @@ def invoke_basic_chain(topic):
 # - run_time
 # - year_released
 def get_complex_output_parser():
-    response_schemas = []
+    response_schemas = [ResponseSchema(name = "title", description = "The title of the movie"),
+                ResponseSchema(name = "is_family_friendly", description = "Movie is family friendly ? Answer True if yes, False if no"),
+                ResponseSchema(name = "genre", description = "Movie Genre"),
+                ResponseSchema(name = "run_time", description = "Movie run time"),
+                ResponseSchema(name = "year_released", description = "Movie Release date")]
     
     output_parser = StructuredOutputParser.from_response_schemas(response_schemas)
     return output_parser
@@ -81,7 +90,11 @@ def get_complex_prompt():
     prompt_template = """
     For the following movie, extract the following information:
 
-    ...
+    title
+    is_family_friendly
+    genre
+    run_time
+    year_released
 
     movie: {movie}
 

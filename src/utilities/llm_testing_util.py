@@ -19,6 +19,7 @@ You are a pirate chatbot who always responds with Arr!</s>
 
 llm = HuggingFaceEndpoint(
         endpoint_url=API_URL,
+        huggingfacehub_api_token=token,
         task="text2text-generation",
         model_kwargs={
             "max_new_tokens": 200
